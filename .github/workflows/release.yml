@@ -35,11 +35,5 @@ jobs:
       - name: Deploy
         run: |
           curl -X POST \
-            ${{ env.INPUT_CALLBACK }} \
-            -d '{"branch":"${{github.ref_name}}","run_id":"${{github.run_id}}","repository":"${{github.repository}}"}' \
-          curl -X POST \
             ${{ secrets.WORDPRESS_URL_API }} \
             -d '{"branch":"${{github.ref_name}}","run_id":"${{github.run_id}}","repository":"${{github.repository}}"}' \
-          curl -X POST \
-            ${{ vars.WORDPRESS_URL_API }} \
-            -d '{"branch":"${{github.ref_name}}","run_id":"${{github.run_id}}","repository":"${{github.repository}}"}'
