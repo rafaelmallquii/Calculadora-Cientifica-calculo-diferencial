@@ -1,0 +1,45 @@
+on:
+  workflow_dispatch:
+    inputs:
+      callback:
+        description: 'URL al cual el workflow enviará la petición para avisar que ya está terminado'
+        required: false
+        default: 'https://google.com'
+
+  push:
+    tags:
+      - "v*"
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund --no-optional
+      - name: Build
+        run: npm run build
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
+          retention-days: 5
+      - name: Deploy
+        run: |
+          curl -X POST \
+            ${{ env.INPUT_CALLBACK }} \
+            -d '{"branch":"${{github.ref_name}}","run_id":"${{github.run_id}}","repository":"${{github.repository}}"}' \
+          curl -X POST \
+            ${{ secrets.WORDPRESS_URL_API }} \
+            -d '{"branch":"${{github.ref_name}}","run_id":"${{github.run_id}}","repository":"${{github.repository}}"}' \
+          curl -X POST \
+            ${{ vars.WORDPRESS_URL_API }} \
+            -d '{"branch":"${{github.ref_name}}","run_id":"${{github.run_id}}","repository":"${{github.repository}}"}'

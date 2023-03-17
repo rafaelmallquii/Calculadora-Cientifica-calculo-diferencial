@@ -1,0 +1,13 @@
+.resultado{
+    background-color: #4a4848;
+    border: 1px solid #f5f1f1;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px;
+    width: 50%;
+    height: 50%;
+    margin: auto;
+    text-align: right;
+    color: rgb(236, 236, 240);
+    
+}
