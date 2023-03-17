@@ -36,7 +36,7 @@ export const Boton = ({ setValor, valor } : BotonProps) => {
 
   return (
     <>
-      <div className="botones">
+      <div className="botones" style={{color: "red"}}>
         <button className="color-botones" onClick={borraResultado}>
           AC
         </button>
